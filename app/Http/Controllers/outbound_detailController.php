@@ -7,6 +7,7 @@ use App\Models\Outbound_Detail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\outbound_detailResource;
 use App\Models\Doc_Outbound;
+use App\Models\refer;
 
 class outbound_detailController extends Controller
 {
@@ -174,10 +175,11 @@ class outbound_detailController extends Controller
     }
 
 
-    public function make_Out_De_form(Request $request){
+    public function print_Out_De_form(Request $request)
+    {
 
 
-        
+
         // $request->validate([
         //     'user_Id' => 'required'
         // ]);
@@ -185,7 +187,7 @@ class outbound_detailController extends Controller
         $out_de = new Outbound_Detail();
         $out_de->user_Id = $request->user_Id;
         $out_de->save();
-       
+
         // $check_id = outbound_detailResource::collection(Outbound_Detail::all())->last()->outbound_Detail_Id;
 
         // session()->put('outbound_detail_id',$check_id+1);
@@ -194,18 +196,20 @@ class outbound_detailController extends Controller
         return response()->json([
             'message' => 'ສ້າງສະໂນດສະເລັດ',
             'data' => $out_de,
-        ],201);
+        ], 201);
     }
 
-    public function delete_form(Outbound_Detail $outbound_Detail){
+    public function delete_form(Outbound_Detail $outbound_Detail)
+    {
         $outbound_Detail->delete();
         return response()->json([
             'message' => 'ລຶບຂໍ້ມູນສຳເລັດ'
         ]);
     }
 
-    
-    public function insert_Out_De_form(Request $request){
+
+    public function insert_Out_De_form(Request $request)
+    {
         $request->validate([
             'user_Id' => 'required',
             'date' => 'required',
@@ -228,29 +232,57 @@ class outbound_detailController extends Controller
             'message' => 'ສ້າງສະໂນດສະເລັດ',
             'data' => $out_de
         ]);
-    
-       
-        
     }
 
-    public function print_out_form(Request $request, Doc_Outbound $doc_out, Outbound_Detail $outbound_Detail){
-        //dd($outbound_Detail->outbound_Detail_Id);
-        // $out_de_form = Outbound_Detail::selectRaw("outbound__details.*, doc__outbounds.title as docTitle, doc__outbounds.doc_C_Id as docId")
-        // ->join('doc__outbounds','doc__outbounds.outbound_Detail_Id','=','outbound__details.outbound_Detail_Id')
-        // ->where('doc__outbounds.outbound_Detail_Id','=',$outbound_Detail->outbound_Detail_Id)
-        // ->get();
+    public function make_Out_De_form(Request $request)
+    {
+        $data = $request->all();
+        $request->validate([
+            'user_Id' => 'required',
+            'date' => 'required',
+            'send_to' => 'required',
+            'title' => 'required',
+        ]);
 
-        $doc_out_all = DB::table('doc__outbounds')
-        ->where('outbound_Detail_Id','=',$outbound_Detail->outbound_Detail_Id)
-        ->get();
-        dd($doc_out_all);
-        // return response()->json([
-        //     'message' => 'ສ້າງໃບສະໂນດສຳເລັດ',
-        //     'data' => [
-        //         'docOut' => $out_de_form,
-        //     ]
-                
-        // ]);
-    
+        $out_de = new Outbound_Detail();
+        $out_de->user_Id = $data['user_Id'];
+        $out_de->date = $data['date'];
+        $out_de->send_to = $data['send_to'];
+        $out_de->title = $data['title'];
+        $out_de->save();
+
+
+
+
+        foreach ($data['refer'] as $key => $refers) {
+            $refer = new refer;
+            $refer->detail = $refers['detail'];
+            $refer->outbound_Detail_Id = $out_de->outbound_Detail_Id;
+
+            $refer->save();
+        }
+
+
+        foreach ($data['doc_out'] as $key => $doc_outs) {
+
+            $doc_out = new Doc_Outbound;
+
+            $doc_out->outbound_Detail_Id = $out_de->outbound_Detail_Id;
+
+            $doc_out->title = $doc_outs['doc_title'];
+            $doc_out->doc_C_Id = $doc_outs['doc_C_Id'];
+            $doc_out->user_Id = $out_de->user_Id;
+            $doc_out->date = $out_de->date;
+            $doc_out->from = $doc_outs['from'];
+            $doc_out->doc_quantity = $doc_outs['quantity'];
+            $doc_out->doc_purpose = $doc_outs['purpose'];
+
+            $doc_out->save();
+        }
+
+        return response()->json([
+            'message' => 'ສ້າງໃບສະໂນດສຳເລັດ',
+            'data' => $data
+        ]);
     }
 }
