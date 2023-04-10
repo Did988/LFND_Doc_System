@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doc_Outbound;
+use Illuminate\Http\Request;
+use App\Models\Outbound_Detail;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\doc_outboundResource;
 use App\Http\Resources\outbound_detailResource;
-use App\Models\Doc_Outbound;
-use App\Models\Outbound_Detail;
-use Illuminate\Http\Request;
 
 class doc_outboundController extends Controller
 {
@@ -228,5 +229,20 @@ class doc_outboundController extends Controller
             'message' => 'ບັນທຶກໄຟລ໌ເອກະສານສຳເລັດ',
             'value' => $doc_outbound,
         ]);
+    }
+
+    public function depart_out_doc($depart)
+    {
+
+        $depart_out_doc = DB::table('doc__outbounds')
+            ->join('users','doc__outbounds.user_Id','=','users.user_Id')
+            ->join('departments','users.depart_Id','=','departments.depart_Id')
+            ->selectRaw("doc__outbounds.*,departments.department_Name")
+            ->where('department_Name',$depart)
+            ->get();
+
+        return response()->json([
+            'data' => $depart_out_doc
+        ], 200);
     }
 }

@@ -91,4 +91,5 @@ Route::post('/doc_outbound/add/make_out_doc',[doc_outboundController::class,'mak
 
 //services
 
-Route::get('/{depart}/all',[doc_inboundController::class,'depart_doc']);
+Route::get('/inbound/{depart}/all',[doc_inboundController::class,'depart_doc']);
+Route::get('/outbound/{depart}/all',[doc_outboundController::class,'depart_out_doc']);

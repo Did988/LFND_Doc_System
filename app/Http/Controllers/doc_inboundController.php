@@ -35,7 +35,7 @@ class doc_inboundController extends Controller
                 'date' => 'required|date',
                 'from' => 'required|max:70|alpha',
                 'send_to' => 'required|max:70|alpha',
-                'file' => 'required|max:255|mimes:pdf',
+                'file' => 'required|mimes:pdf',
                 'doc_Category_Id' => 'required|exists:document__categories,doc_Category_Id|integer',
                 'ex_doc_id' => 'required'
             ],
@@ -192,6 +192,9 @@ class doc_inboundController extends Controller
         ->where('send_to', $depart)
         ->get();
 
-        dd($depart_doc);
+        
+        return response()->json([
+            'data' => $depart_doc
+        ],200);
     }
 }
