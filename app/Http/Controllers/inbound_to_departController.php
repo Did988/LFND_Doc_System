@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Inbound_to_Department;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\inbound_to_departResource;
+use App\Models\Department;
+use App\Models\Doc_Inbound;
 
 class inbound_to_departController extends Controller
 {
@@ -160,4 +162,6 @@ class inbound_to_departController extends Controller
             ]
         );
     }
+
+   
 }

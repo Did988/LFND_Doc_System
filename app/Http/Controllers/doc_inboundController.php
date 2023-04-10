@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Doc_Inbound;
 use Illuminate\Http\Request;
 use App\Models\Document_Category;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\doc_inboundResource;
 
 class doc_inboundController extends Controller
@@ -35,7 +36,8 @@ class doc_inboundController extends Controller
                 'from' => 'required|max:70|alpha',
                 'send_to' => 'required|max:70|alpha',
                 'file' => 'required|max:255|mimes:pdf',
-                'doc_Category_Id' => 'required|exists:document__categories,doc_Category_Id|integer'
+                'doc_Category_Id' => 'required|exists:document__categories,doc_Category_Id|integer',
+                'ex_doc_id' => 'required'
             ],
             [
                 'doc_Id.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ',
@@ -75,6 +77,7 @@ class doc_inboundController extends Controller
         $file = $request->file('file')->store('docs');
         $doc_inbound->file = $file;
         $doc_inbound->doc_Category_Id = $request->doc_Category_Id;
+        $doc_inbound->ex_doc_id = $request->ex_doc_id;
         $doc_inbound->save();
 
         return response()->json([
@@ -179,5 +182,16 @@ class doc_inboundController extends Controller
                 'message' => 'ລຶບຂໍ້ມູນສຳເລັດ'
             ]
         );
+    }
+
+    public function depart_doc($depart){
+        
+
+        
+        $depart_doc = DB::table('doc__inbounds')
+        ->where('send_to', $depart)
+        ->get();
+
+        dd($depart_doc);
     }
 }

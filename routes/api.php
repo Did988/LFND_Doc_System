@@ -29,6 +29,9 @@ Route::put('/changepassword', [AuthenController::class, 'changepassword']);
 
 
 
+
+
+
 //department
 Route::get('/Department/all',[departmentController::class,'index']);
 Route::post('/Department/add',[departmentController::class,'store']);
@@ -84,3 +87,8 @@ Route::put('/doc_outbound/edit/{doc_Outbound}',[doc_outboundController::class,'u
 Route::put('/doc_outbound/insert_file/{doc_Outbound}',[doc_outboundController::class,'insert_file']);
 Route::delete('/doc_outbound/delete/{doc_Outbound}', [doc_outboundController::class,'destroy']);
 Route::post('/doc_outbound/add/make_out_doc',[doc_outboundController::class,'make_out_doc']);
+
+
+//services
+
+Route::get('/{depart}/all',[doc_inboundController::class,'depart_doc']);

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,22 +25,35 @@ class AuthenController extends Controller
             'password.required' => 'ປ້ອນລະຫັດຜ່ານກ່ອນ!',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+
+
+
+
+
+        $user = User::where('email', $request->email)
+            ->join('departments', 'users.depart_Id', '=', 'departments.depart_Id')
+            ->first();
+
         if ($user) {
 
             //dd($user->password,$request->password);
             if (Hash::check($request->password, $user->password)) {
+
+                
                 $id = $user->user_Id;
                 $username = $user->username;
-                $name = $user->firstname." ".$user->lastname;
+                $name = $user->firstname . " " . $user->lastname;
                 $password = $user->password;
+                $depart = $user->department_Name;
                 $status = $user->status;
                 $imagename = $user->image;
+
                 session()->put('id', $id);
                 session()->put('name', $name);
-                session()->put('username',$username);
+                session()->put('username', $username);
                 session()->put('password', $password);
                 session()->put('status', $status);
+                session()->put('depart', $depart);
                 session()->put('image', $imagename);
 
                 $value = session()->all();
@@ -81,7 +96,6 @@ class AuthenController extends Controller
             return response()->json([
                 'message' => 'ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ'
             ]);
-           
         }
     }
 
@@ -93,6 +107,5 @@ class AuthenController extends Controller
         return response()->json([
             'message' => 'ທ່ານອອກຈາກລະບົບສຳເລັດ'
         ]);
-       
     }
 }
