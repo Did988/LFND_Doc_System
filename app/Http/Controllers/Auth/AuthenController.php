@@ -43,6 +43,13 @@ class AuthenController extends Controller
                 $id = $user->user_Id;
                 $username = $user->username;
                 $name = $user->firstname . " " . $user->lastname;
+                $gender = $user->gender;
+                if($gender=='male'){
+                    $laoGender = 'ທ່ານ';
+                }else{
+                    $laoGender = 'ທ່ານ ນາງ';
+                }
+                
                 $password = $user->password;
                 $depart = $user->department_Name;
                 $status = $user->status;
@@ -55,13 +62,14 @@ class AuthenController extends Controller
                 session()->put('status', $status);
                 session()->put('depart', $depart);
                 session()->put('image', $imagename);
+                session()->put('gender',$laoGender);
 
                 $value = session()->all();
 
                 return response()->json([
                     'message' => 'ເຂົ້າລະບົບສຳເລັດ',
                     'value' => $value,
-                ]);
+                ],200);
             } else {
                 return response()->json([
                     'message' => 'ອີເມວ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ'

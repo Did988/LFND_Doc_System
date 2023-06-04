@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\apiTestController;
 use App\Http\Controllers\departmentController;
 use App\Http\Controllers\doc_inboundController;
 use App\Http\Controllers\document_CategoryController;
@@ -57,6 +58,8 @@ Route::post('/doc_inbound/add',[doc_inboundController::class,'store']);
 Route::post('/doc_inbound/{doc_Inbound}',[doc_inboundController::class,'show']);
 Route::put('/doc_inbound/edit/{doc_Inbound}',[doc_inboundController::class,'update']);
 Route::delete('/doc_inbound/delete/{doc_Inbound}', [doc_inboundController::class,'destroy']);
+//return DocInbound URL
+Route::post('/docInbound/{fileName}',[doc_inboundController::class,'getFilePath']);
 
 //inbound_to_department
 Route::get('/inbound_to_Department/all',[inbound_to_departController::class,'index']);
@@ -87,9 +90,15 @@ Route::put('/doc_outbound/edit/{doc_Outbound}',[doc_outboundController::class,'u
 Route::put('/doc_outbound/insert_file/{doc_Outbound}',[doc_outboundController::class,'insert_file']);
 Route::delete('/doc_outbound/delete/{doc_Outbound}', [doc_outboundController::class,'destroy']);
 Route::post('/doc_outbound/add/make_out_doc',[doc_outboundController::class,'make_out_doc']);
-
+Route::get('/doc_outbounds/{outbound_Detail_Id}',[doc_outboundController::class,'show_by_out_de']);
 
 //services
 
 Route::get('/inbound/{depart}/all',[doc_inboundController::class,'depart_doc']);
 Route::get('/outbound/{depart}/all',[doc_outboundController::class,'depart_out_doc']);
+
+//apitest
+Route::post('/apitest',[apiTestController::class,'store']);
+
+//view
+Route::get('/viewDocIn/{docId}', [doc_inboundController::class, 'viewPdf']);

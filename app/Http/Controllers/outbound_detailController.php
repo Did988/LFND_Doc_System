@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\refer;
+use App\Models\Doc_Outbound;
 use Illuminate\Http\Request;
 use App\Models\Outbound_Detail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\outbound_detailResource;
-use App\Models\Doc_Outbound;
-use App\Models\refer;
 
 class outbound_detailController extends Controller
 {
@@ -160,12 +161,12 @@ class outbound_detailController extends Controller
 
 
         $request->validate([
-            'file' => 'required|max:5120|mimes:pdf'
+            'file' => 'required|mimes:pdf'
         ]);
 
 
         $filename = time() . '.' . $request->file->extension();
-        $outbound_Detail->file = $request->file->storeAs('public/doc_outbound', $filename);
+        $outbound_Detail->file = $request->file->storeAs('public/outbound_details', $filename);
         $outbound_Detail->save();
 
         return response()->json([
@@ -285,4 +286,140 @@ class outbound_detailController extends Controller
             'data' => $data
         ]);
     }
+    public function ViewOutDetail($outDocId)
+    {
+        $outDocDetail = DB::table('outbound__details as outDe')
+            ->where('outDe.outbound_Detail_Id', '=', $outDocId)
+            ->selectRaw('outDe.*')
+            ->get();
+
+        $userId = $outDocDetail[0]->user_Id;
+
+
+        $depart = DB::table('users')
+            ->join('departments as depart', 'depart.depart_Id', '=', 'users.depart_Id')
+            ->where('users.user_Id', '=', $userId)
+            ->selectRaw('depart.department_Name')
+            ->get();
+
+
+
+        if ($depart[0]->department_Name == 'ຫ້ອງການ') {
+            $sortDepart = 'ຫກ';
+        } else if ($depart[0]->department_Name == 'ກົມກວດກາ') {
+            $sortDepart = 'ກກ';
+        } else if ($depart[0]->department_Name == 'ກົມຈັດຕັ້ງພະນັກງານ') {
+            $sortDepart = 'ຈຕພນງ';
+        } else if ($depart[0]->department_Name == 'ກົມສາສະໜາ') {
+            $sortDepart = 'ສສໜ';
+        } else if ($depart[0]->department_Name == 'ກົມຊັ້ນຄົນການຈັດຕັ້ງສັງຄົມ') {
+            $sortDepart = 'ຊຄ';
+        } else if ($depart[0]->department_Name == 'ກົມໂຄສະນາ') {
+            $sortDepart = 'ຄສນ';
+        } else if ($depart[0]->department_Name == 'ສູນຝຶກອົບຮົມ') {
+            $sortDepart = 'ສຝອຮ';
+        }
+
+
+
+
+        $docOut = DB::table('doc__outbounds as docOut')
+            ->selectRaw('docOut.doc_C_Id,docOut.title,docOut.doc_quantity,docOut.doc_purpose')
+            ->where('docOut.outbound_Detail_Id', '=', $outDocId)
+            ->get();
+
+
+        // $pdf = Pdf::loadView('OutboundDetail.OutDetail', compact('docDe', 'outDocDetail', 'depart', 'sortDepart'));
+        // return $pdf->download();
+        // return view('OutboundDetail.OutDetail', compact('docDe', 'outDocDetail', 'depart', 'sortDepart'));
+        $path = base_path('laoLogo.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true, 'fontHeightRatio' => 0.7])->loadView('OutboundDetail.OutDetail', compact('pic', 'docOut', 'outDocDetail', 'depart', 'sortDepart'));
+        set_time_limit(300);
+
+
+        return $pdf->stream();
+
+        // return response()->json([
+        //     'data' => [
+        //         'logo' => $pic,
+        //         'docOut' => $docOut,
+        //         'outDocDetail' => $outDocDetail,
+        //         'depart' => $depart,
+        //         'sortDepart' => $sortDepart,
+
+        //     ]
+        //     ]);
+    }
+    public function testPdf($outDocId)
+    {
+        $outDocDetail = DB::table('outbound__details as outDe')
+            ->where('outDe.outbound_Detail_Id', '=', $outDocId)
+            ->selectRaw('outDe.*')
+            ->get();
+
+        $userId = $outDocDetail[0]->user_Id;
+
+
+        $depart = DB::table('users')
+            ->join('departments as depart', 'depart.depart_Id', '=', 'users.depart_Id')
+            ->where('users.user_Id', '=', $userId)
+            ->selectRaw('depart.department_Name')
+            ->get();
+
+
+
+        if ($depart[0]->department_Name == 'ຫ້ອງການ') {
+            $sortDepart = 'ຫກ';
+        } else if ($depart[0]->department_Name == 'ກົມກວດກາ') {
+            $sortDepart = 'ກກ';
+        } else if ($depart[0]->department_Name == 'ກົມຈັດຕັ້ງພະນັກງານ') {
+            $sortDepart = 'ຈຕພນງ';
+        } else if ($depart[0]->department_Name == 'ກົມສາສະໜາ') {
+            $sortDepart = 'ສສໜ';
+        } else if ($depart[0]->department_Name == 'ກົມຊັ້ນຄົນການຈັດຕັ້ງສັງຄົມ') {
+            $sortDepart = 'ຊຄ';
+        } else if ($depart[0]->department_Name == 'ກົມໂຄສະນາ') {
+            $sortDepart = 'ຄສນ';
+        } else if ($depart[0]->department_Name == 'ສູນຝຶກອົບຮົມ') {
+            $sortDepart = 'ສຝອຮ';
+        }
+
+
+
+
+        $docOut = DB::table('doc__outbounds as docOut')
+            ->selectRaw('docOut.doc_C_Id,docOut.title,docOut.doc_quantity,docOut.doc_purpose')
+            ->where('docOut.outbound_Detail_Id', '=', $outDocId)
+            ->get();
+
+
+        // $pdf = Pdf::loadView('OutboundDetail.OutDetail', compact('docDe', 'outDocDetail', 'depart', 'sortDepart'));
+        // return $pdf->download();
+        // return view('OutboundDetail.OutDetail', compact('docDe', 'outDocDetail', 'depart', 'sortDepart'));
+        $path = base_path('laoLogo.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        // $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true,'dpi' => 150, 'defaultFont' => 'Phetsarath_OT'])->loadView('OutboundDetail.OutDetail', compact('pic','docOut', 'outDocDetail', 'depart', 'sortDepart'));
+        // set_time_limit(300);
+        // return $pdf->stream();
+
+        return view('OutboundDetail.OutDetail', compact('pic','docOut', 'outDocDetail', 'depart', 'sortDepart'));
+        // return response()->json([
+        //     'data' => [
+        //         'logo' => $pic,
+        //         'docOut' => $docOut,
+        //         'outDocDetail' => $outDocDetail,
+        //         'depart' => $depart,
+        //         'sortDepart' => $sortDepart,
+
+        //     ]
+        // ]);
+    }
+
 }

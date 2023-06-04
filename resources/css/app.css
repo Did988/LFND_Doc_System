@@ -1,0 +1,4 @@
+@font-face {
+    font-family: 'PhetsarathOT';
+    src: url("{{ asset('fonts/Phetsarath_OT.ttf') }}") format('truetype');
+}

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\doc_inboundController;
+use App\Http\Controllers\outbound_detailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/OutDetail/view/{outDocId}', [outbound_detailController::class, 'ViewOutDetail']);
+Route::get('/testPdf/{outDocId}', [outbound_detailController::class, 'testPdf']);
+
+Route::get('/viewDocIn/{docId}', [doc_inboundController::class, 'viewPdf']);
+
+

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\departmentResource;
 use App\Models\Department;
-
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\departmentResource;
 
 class departmentController extends Controller
 {
@@ -16,8 +17,12 @@ class departmentController extends Controller
      */
     public function index()
     {
+        $data = DB::table('departments')
+        ->selectRaw('depart_Id,department_Name')
+        ->get();
 
-        return departmentResource::collection(Department::all());
+        return response($data);
+            
     }
 
     /**
@@ -30,12 +35,12 @@ class departmentController extends Controller
     {
         $request->validate(
             [
-                'department_Name' => 'required|max:70|unique:departments|alpha_dash',
+                'department_Name' => 'required|max:70|alpha_dash',
             ],
             [
                 'department_Name.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
                 'department_Name.max' => 'ຊື່ຍາວເກີນໄປ',
-                'department_Name.unique' => 'ກົມນີ້ມີໃນລະບົບແລ້ວ',
+                
                 'department_Name.alpha_dash' => 'ຊື່ກົມຄວນເປັນຕົວໜັງສື'
             ]
         );

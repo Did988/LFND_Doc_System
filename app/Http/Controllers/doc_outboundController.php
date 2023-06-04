@@ -18,7 +18,15 @@ class doc_outboundController extends Controller
      */
     public function index()
     {
-        return doc_outboundResource::collection(Doc_Outbound::all());
+        $data = DB::table('doc__outbounds')
+        ->join('users','users.user_Id','=','doc__outbounds.user_Id')
+        ->join('document__categories as docCate','docCate.doc_Category_Id','=','doc__outbounds.doc_Category_Id')
+        ->selectRaw('doc__outbounds.*,users.firstname,users.lastname,users.gender as gender,docCate.category_Name')
+        ->get();
+        
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 
     /**
@@ -212,7 +220,7 @@ class doc_outboundController extends Controller
         ]);
     }
 
-    public function insert_file(Request $request, Doc_Outbound $doc_outbound)
+    public function insert_file(Request $request, Doc_Outbound $doc_Outbound)
     {
         $request->validate([
             'file' => 'required',
@@ -221,13 +229,13 @@ class doc_outboundController extends Controller
 
         //dd($doc_outbound->doc_Id);
 
-        $doc_outbound->doc_Category_Id = $request->doc_Category_Id;
+        $doc_Outbound->doc_Category_Id = $request->doc_Category_Id;
         $filename = time() . '.' . $request->file->extension();
-        $doc_outbound->file = $request->file->storeAs('public/doc_outbound', $filename);
-        $doc_outbound->save();
+        $doc_Outbound->file = $request->file->storeAs('public/doc_outbound', $filename);
+        $doc_Outbound->save();
         return response()->json([
             'message' => 'ບັນທຶກໄຟລ໌ເອກະສານສຳເລັດ',
-            'value' => $doc_outbound,
+            'value' => $doc_Outbound,
         ]);
     }
 
@@ -243,6 +251,17 @@ class doc_outboundController extends Controller
 
         return response()->json([
             'data' => $depart_out_doc
+        ], 200);
+    }
+
+    public function show_by_out_de($outbound_Detail_Id){
+
+        $data = DB::table('doc__outbounds')
+        ->where('outbound_Detail_Id','=',$outbound_Detail_Id)
+        ->get();
+
+        return response()->json([
+            'data' => $data
         ], 200);
     }
 }
