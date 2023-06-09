@@ -421,5 +421,6 @@ class outbound_detailController extends Controller
         //     ]
         // ]);
     }
+    
 
 }

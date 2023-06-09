@@ -6,6 +6,7 @@ use App\Models\Doc_Outbound;
 use Illuminate\Http\Request;
 use App\Models\Outbound_Detail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use App\Http\Resources\doc_outboundResource;
 use App\Http\Resources\outbound_detailResource;
 
@@ -264,4 +265,20 @@ class doc_outboundController extends Controller
             'data' => $data
         ], 200);
     }
+
+    public function viewPdfOut($docId){
+        $doc_file = DB::table('doc__outbounds')
+        ->selectRaw('doc__outbounds.file')
+        ->where('doc__outbounds.doc_Id','=',$docId)
+        ->get();
+       
+         // return view('docInbound.viewDocin',compact('doc_file'));
+         
+         $path = public_path("/storage/doc_inbound/").$doc_file[0]->file;
+ 
+         return Response::make(file_get_contents($path), 200, [
+             'Content-Type' => 'application/pdf',
+     
+         ]);
+     }
 }

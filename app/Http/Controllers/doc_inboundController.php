@@ -113,9 +113,10 @@ class doc_inboundController extends Controller
         $doc_Value = DB::table('doc__inbounds as docIn')
         ->join('departments','departments.depart_Id','=','docIn.depart_Id')
         ->join('document__categories','document__categories.doc_Category_Id','=','docIn.doc_Category_Id')
-        ->selectRaw("docIn.doc_Id,docIn.ex_doc_id,docIn.title,docIn.date,docIn.from,docIn.file,departments.department_Name,document__categories.category_Name")
+        ->selectRaw("docIn.doc_Id,docIn.ex_doc_id,docIn.title,docIn.date,docIn.from,docIn.file,departments.depart_Id,document__categories.doc_Category_Id")
         ->where('docIn.doc_Id','=',$doc_Inbound)
         ->get();
+        
         return response()->json([
             'data' => $doc_Value
         ]);
@@ -130,7 +131,10 @@ class doc_inboundController extends Controller
      */
     public function update(Request $request, $doc_Inbound)
     {      
+        
         $doc_Inbounds = Doc_Inbound::find($doc_Inbound);
+        
+       
         if ($request->hasFile('file')) {
 
             $destination = 'storage/doc_inbound/' . $doc_Inbounds->file;
@@ -154,9 +158,10 @@ class doc_inboundController extends Controller
         $doc_Inbounds->date = $request->date;
         $doc_Inbounds->from = $request->from;
         $doc_Inbounds->depart_Id = $request->depart_Id;
+        $doc_Inbounds->ex_doc_id = $request->ex_doc_id;
         $doc_Inbounds->doc_Category_Id = $request->doc_Category_Id;
 
-        $doc_Inbounds->update();
+        $doc_Inbounds->save();
 
         return response()->json([
             'message' => 'ແກ້ໄຂຂໍ້ມູນສຳເລັດ',

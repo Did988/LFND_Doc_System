@@ -30,58 +30,7 @@ class userController extends Controller
     public function store(Request $request, Department $department)
     {
 
-        $request->validate(
-            [
-                'depart_Id' => 'required|max:8|numeric|exists:departments,depart_Id',
-                'gender' => 'required|max:6|alpha',
-                'firstname' => 'required|max:70|alpha',
-                'lastname' => 'required|max:70|alpha',
-                'username' => 'required|max:70|regex:/^[a-zA-Z0-9]+$/u',
-                'email' => 'required|max:255|email',
-                'password' => 'required|max:70|regex:/^[a-zA-Z0-9@$!%*#?&]+$/u',
-                'status' => 'required|max:50|regex:/^[a-zA-Z]+$/u',
-                'image' => "required|max:5120"
-
-
-            ],
-            [
-                'depart_Id.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'depart_Id.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ໃຫ້ກາຍ 8',
-                'depart_Id.numeric' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕເລກ',
-
-                'gender.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'gender.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 6 ໂຕອັກສອນ',
-                'gender.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-
-                'firstname.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'firstname.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 70 ໂຕອັກສອນ',
-                'firstname.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-
-                'lastname.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'lastname.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 70 ໂຕອັກສອນ',
-                'lastname.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-
-                'username.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'username.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 70 ໂຕອັກສອນ',
-                'username.regex' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື ແລະ ໂຕເລກ',
-
-                'email.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'email.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 255 ໂຕອັກສອນ',
-                'email.email' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນອີເມວ',
-
-                'password.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'password.max' => 'ກະລຸນາປ້ອນລະຫັດບໍ່ກາຍ 50 ໂຕອັກສອນ',
-                'password.regex' => 'ກະລຸນາປ້ອນລະຫັດເປັນໂຕໜັງສື, ໂຕເລກ ແລະ ສັນຍາລັກພິເສດ',
-
-                'status.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'status.max' => 'ກະລຸນາປ້ອນລະຫັດບໍ່ກາຍ 50 ໂຕອັກສອນ',
-                'status.regex' => 'ກະລຸນາປ້ອນລະຫັດເປັນໂຕໜັງສື',
-
-                'image.required' => 'ກະລຸນາໃສ່ຮູບ',
-                'image.max' => 'ຮູບຂະໜາດໃຫຍ່ເກີນໄປ'
-
-            ]
-        );
+       
         $user = new User();
         $user->depart_Id = $request->depart_Id;
         $user->gender = $request->gender;

@@ -9,6 +9,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\Auth\AuthenController;
 use App\Http\Controllers\doc_outboundController;
 use App\Http\Controllers\outbound_detailController;
+use App\Http\Controllers\SearchController;
 use App\Http\Resources\outbound_detailResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,14 +50,14 @@ Route::delete('/DocCategory/delete/{document_Category}', [document_CategoryContr
 Route::get('/user/all',[userController::class,'index']);
 Route::post('/user/add',[userController::class,'store']);
 Route::post('/user/{user}',[userController::class,'show']);
-Route::put('/user/edit/{user}',[userController::class,'update']);
+Route::post('/user/edit/{user}',[userController::class,'update']);
 Route::delete('/user/delete/{user}', [userController::class,'destroy']);
 
 //doc_inbound
 Route::get('/doc_inbound/all',[doc_inboundController::class,'index']);
 Route::post('/doc_inbound/add',[doc_inboundController::class,'store']);
-Route::post('/doc_inbound/{doc_Inbound}',[doc_inboundController::class,'show']);
-Route::put('/doc_inbound/edit/{doc_Inbound}',[doc_inboundController::class,'update']);
+Route::get('/doc_inbound/{doc_Inbound}',[doc_inboundController::class,'show']);
+Route::post('/doc_inbound/edit/{doc_Inbound}',[doc_inboundController::class,'update']);
 Route::delete('/doc_inbound/delete/{doc_Inbound}', [doc_inboundController::class,'destroy']);
 //return DocInbound URL
 Route::post('/docInbound/{fileName}',[doc_inboundController::class,'getFilePath']);
@@ -87,7 +88,7 @@ Route::get('/doc_outbound/all',[doc_outboundController::class,'index']);
 Route::post('/doc_outbound/add',[doc_outboundController::class,'store']);
 Route::get('/doc_outbound/{doc_Outbound}',[doc_outboundController::class,'show']);
 Route::put('/doc_outbound/edit/{doc_Outbound}',[doc_outboundController::class,'update']);
-Route::put('/doc_outbound/insert_file/{doc_Outbound}',[doc_outboundController::class,'insert_file']);
+Route::post('/doc_outbound/insert_file/{doc_Outbound}',[doc_outboundController::class,'insert_file']);
 Route::delete('/doc_outbound/delete/{doc_Outbound}', [doc_outboundController::class,'destroy']);
 Route::post('/doc_outbound/add/make_out_doc',[doc_outboundController::class,'make_out_doc']);
 Route::get('/doc_outbounds/{outbound_Detail_Id}',[doc_outboundController::class,'show_by_out_de']);
@@ -96,9 +97,15 @@ Route::get('/doc_outbounds/{outbound_Detail_Id}',[doc_outboundController::class,
 
 Route::get('/inbound/{depart}/all',[doc_inboundController::class,'depart_doc']);
 Route::get('/outbound/{depart}/all',[doc_outboundController::class,'depart_out_doc']);
-
+//ສ້າງໃບສະໂໜດ
+Route::get('/OutDetail/view/{outDocId}', [outbound_detailController::class, 'ViewOutDetail']);
 //apitest
 Route::post('/apitest',[apiTestController::class,'store']);
 
 //view
 Route::get('/viewDocIn/{docId}', [doc_inboundController::class, 'viewPdf']);
+Route::get('/viewDocOut/{docId}', [doc_outboundController::class, 'viewPdfOut']);
+
+
+//search
+Route::post('/search',[SearchController::class,'docSearch']);

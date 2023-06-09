@@ -24,14 +24,14 @@
             src: url("{{ public_path('fonts/Phetsarath_OT.ttf') }}") format('truetype');
         }
 
-        /* @font-face {
+        @font-face {
             font-family: 'TimesnewRoman';
             font-weight: normal;
             font-style: normal;
             src: url("{{ public_path('fonts/times.ttf') }}") format('truetype');
         }
 
-        @font-face {
+        /* @font-face {
             font-family: 'Phetsarath';
             src: url({{ storage_path('fonts/Phetsarath_OT.ttf') }}) format("truetype");
             font-weight: 400; // use the matching font-weight here ( 100, 200, 300, 400, etc).
@@ -53,7 +53,7 @@
         }
 
         .engFont {
-            font-family: 'TimesnewRoman' !important;
+            font-family: 'TimesnewRoman';
             font-size: 12pt;
         }
 
