@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\Doc_Inbound;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use App\Models\Inbound_to_Department;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\inbound_to_departResource;
-use App\Models\Department;
-use App\Models\Doc_Inbound;
 
 class inbound_to_departController extends Controller
 {
@@ -31,30 +33,22 @@ class inbound_to_departController extends Controller
     {
         $request->validate(
             [
-                'form_name' => 'required|max:70|alpha',
-                'send_to' => 'required|max:255|alpha',
-                'title' => 'required|max:255|alpha',
-                'comment' => 'required|alpha'
+               
+                'send_to' => 'required',
+                'date' => 'required',
+                'level' => 'required',
+                'purpose' => 'required',
+                
+                
             ],
-            [
-                'form_name.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'form_name.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 70 ໂຕອັກສອນ',
-                'form_name.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-                'send_to.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'send_to.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 255 ໂຕອັກສອນ',
-                'send_to.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-                'title.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'title.max' => 'ກະລຸນາປ້ອນຂໍ້ມູນບໍ່ກາຍ 255 ໂຕອັກສອນ',
-                'title.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື',
-                'comment.required' => 'ກະລຸນາປ້ອນຂໍ້ມູນ',
-                'comment.alpha' => 'ກະລຸນາປ້ອນຂໍ້ມູນເປັນໂຕໜັງສື'
-            ]
+           
         );
 
         $ITD = new Inbound_to_Department();
-        $ITD->form_name = $request->form_name;
         $ITD->send_to = $request->send_to;
-        $ITD->title = $request->title;
+        $ITD->date = $request->date;
+        $ITD->level = $request->level;
+        $ITD->purpose = $request->purpose;
         $ITD->comment = $request->comment;
         $ITD->save();
 
@@ -161,6 +155,26 @@ class inbound_to_departController extends Controller
                 'message' => 'ລຶບຂໍ້ມູນສຳເລັດ'
             ]
         );
+    }
+
+    public function makeForm($docInId){
+
+        $data = DB::table('inbound_to__departments as folDoc')
+        ->where('folDoc.doc_Id','=',$docInId)->get();
+        $info = $data;
+        
+        // dd($info);
+        $path = base_path('laoLogo.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true, 'fontHeightRatio' => 0.7])->loadView('docInbound.followDocForm', compact('info','pic'));
+        set_time_limit(300);
+
+
+        return $pdf->stream();
+
     }
 
    

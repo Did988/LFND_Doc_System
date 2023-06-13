@@ -42,7 +42,8 @@ class AuthenController extends Controller
                 
                 $id = $user->user_Id;
                 $username = $user->username;
-                $name = $user->firstname . " " . $user->lastname;
+                $Fname = $user->firstname;
+                $Lname = $user->lastname;
                 $gender = $user->gender;
                 if($gender=='male'){
                     $laoGender = 'ທ່ານ';
@@ -56,7 +57,8 @@ class AuthenController extends Controller
                 $imagename = $user->image;
 
                 session()->put('id', $id);
-                session()->put('name', $name);
+                session()->put('Fname', $Fname);
+                session()->put('Lname', $Lname);
                 session()->put('username', $username);
                 session()->put('password', $password);
                 session()->put('status', $status);

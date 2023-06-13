@@ -99,6 +99,8 @@ Route::get('/inbound/{depart}/all',[doc_inboundController::class,'depart_doc']);
 Route::get('/outbound/{depart}/all',[doc_outboundController::class,'depart_out_doc']);
 //ສ້າງໃບສະໂໜດ
 Route::get('/OutDetail/view/{outDocId}', [outbound_detailController::class, 'ViewOutDetail']);
+//ສ້າງໃບກິດສຳພັນ
+Route::get('/followDocForm/view/{docInId}', [inbound_to_departController::class, 'makeForm']);
 //apitest
 Route::post('/apitest',[apiTestController::class,'store']);
 
