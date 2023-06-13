@@ -176,12 +176,11 @@
         </div>
         <div class="space-1"></div>
         <div class="normal-text center laoFont">
-            <p class="title">ໃບກິດສຳພັນ</p>
+            <p class="title">ໃບຕິດຕາມເອກະສານ</p>
 
             @foreach ($info ?? '' as $item)
                 <p>ເອກະສານເຂົ້າເລກທີ: {{ $item->doc_Id }} ລົງວັນທີ
                     {{ date('ວັນທີ d ເດືອນ m  ປີ Y', strtotime($item->date)) }}</p>
-                <p class="left tab-2">ລະດັບ: {{ $item->level }}</p>
                 <p class="left tab-2">ຮຽນ: {{ $item->send_to }}</p>
                 <p class="left tab-2">ເລື່ອງ: {{ $item->purpose }}</p>
             @endforeach

@@ -37,6 +37,9 @@ class userController extends Controller
 
         $imageName = time().'.'.$request->image->extension();
         $user->image = $request->image->storeAs('public/images', $imageName);
+
+        
+
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->username = $request->username;
@@ -93,7 +96,7 @@ class userController extends Controller
             }
 
             $filename = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/images', $filename);
+            $request->image->storeAs('storage/images', $filename);
             $user->image = $filename;
         }
 
