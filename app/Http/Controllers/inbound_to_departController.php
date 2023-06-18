@@ -34,7 +34,7 @@ class inbound_to_departController extends Controller
         $request->validate(
             [
                'doc_Id' =>'required',
-                'send_to' => 'required',
+                'dear' => 'required',
                 'date' => 'required',
                 'title' => 'required',
                 
@@ -45,7 +45,7 @@ class inbound_to_departController extends Controller
         );
 
         $ITD = new Inbound_to_Department();
-        $ITD->send_to = $request->send_to;
+        $ITD->dear = $request->dear;
         $ITD->date = $request->date;
         $ITD->doc_Id = $request->doc_Id;
         $ITD->title = $request->title;
