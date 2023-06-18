@@ -36,8 +36,8 @@ class inbound_to_departController extends Controller
                
                 'send_to' => 'required',
                 'date' => 'required',
-                'level' => 'required',
-                'purpose' => 'required',
+                'title' => 'required',
+                
                 
                 
             ],
@@ -168,7 +168,7 @@ class inbound_to_departController extends Controller
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
+// dd($info);
         $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true, 'fontHeightRatio' => 0.7])->loadView('docInbound.followDocForm', compact('info','pic'));
         set_time_limit(300);
 

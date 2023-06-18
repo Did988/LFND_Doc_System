@@ -237,7 +237,7 @@
 
             <tr class="no_border">
                 <th scope="col" class="no_border SigRight">
-                    ຫົວໜ້າຫ້ອງການ
+                    ຫົວໜ້າຫ້ອງການ ສູນກາງແນວລາວສ້າງຊາດ
                 </th>
 
             </tr>
