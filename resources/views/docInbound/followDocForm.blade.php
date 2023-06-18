@@ -181,7 +181,7 @@
             @foreach ($info ?? '' as $item)
                 <p>ເອກະສານເຂົ້າເລກທີ: {{ $item->doc_Id }} ລົງວັນທີ
                     {{ date('ວັນທີ d ເດືອນ m  ປີ Y', strtotime($item->date)) }}</p>
-                <p class="left tab-2">ຮຽນ: {{ $item->send_to }}</p>
+                <p class="left tab-2">ຮຽນ: {{ $item->dear }}</p>
                 <p class="left tab-2">ເລື່ອງ: {{ $item->title }}</p>
             @endforeach
             <p class="space-1"></p>
