@@ -328,6 +328,12 @@ class outbound_detailController extends Controller
             ->where('docOut.outbound_Detail_Id', '=', $outDocId)
             ->get();
 
+        $referDoc = DB::table('refers')
+        ->join('outbound__details','outbound__details.outbound_Detail_Id','=','refers.outbound_Detail_Id')
+        ->where('refers.outbound_Detail_Id','=',$outDocId)
+        ->get();
+ 
+        
 
         // $pdf = Pdf::loadView('OutboundDetail.OutDetail', compact('docDe', 'outDocDetail', 'depart', 'sortDepart'));
         // return $pdf->download();
@@ -337,7 +343,7 @@ class outbound_detailController extends Controller
         $data = file_get_contents($path);
         $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
-        $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true, 'fontHeightRatio' => 0.7])->loadView('OutboundDetail.OutDetail', compact('pic', 'docOut', 'outDocDetail', 'depart', 'sortDepart'));
+        $pdf = Pdf::setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnable' => true, 'fontHeightRatio' => 0.7])->loadView('OutboundDetail.OutDetail', compact('pic', 'docOut', 'outDocDetail', 'depart', 'sortDepart','referDoc'));
         set_time_limit(300);
 
 

@@ -204,7 +204,13 @@
                 <p>ເລື່ອງ: {{ $item->title }}</p>
             @endforeach
         </div>
-        <div class="space-1"></div>
+        
+            @foreach ($referDoc ?? '' as $item)
+                <ul style="list-style-type: none">
+                    <li>- {{$item->detail}}</li>
+                </ul>
+            @endforeach
+        
         <div class="title">ເອກະສານທີ່ສົ່ງມາປະກອບມີ:</div>
         <div class="space-1"></div>
         <div class="">
