@@ -54,7 +54,14 @@ class AuthenController extends Controller
                 $password = $user->password;
                 $depart = $user->department_Name;
                 $status = $user->status;
-                $imagename = $user->image;
+
+
+                // $path = public_path("/storage/images/").$user->image;
+                // $type = pathinfo($path, PATHINFO_EXTENSION);
+                // $data = file_get_contents($path);
+                // $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $pic = $user->image;
+                
 
                 session()->put('id', $id);
                 session()->put('Fname', $Fname);
@@ -63,7 +70,7 @@ class AuthenController extends Controller
                 session()->put('password', $password);
                 session()->put('status', $status);
                 session()->put('depart', $depart);
-                session()->put('image', $imagename);
+                session()->put('image', $pic);
                 session()->put('gender',$laoGender);
 
                 $value = session()->all();

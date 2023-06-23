@@ -35,8 +35,19 @@ class userController extends Controller
         $user->depart_Id = $request->depart_Id;
         $user->gender = $request->gender;
 
-        $imageName = time().'.'.$request->image->extension();
-        $user->image = $request->image->storeAs('public/images', $imageName);
+        // $imageName = time().'.'.$request->image->extension();
+        // $user->image = $request->image->storeAs('public/images', $imageName);
+        // dd($request->has('image')
+        if(!$request->has('image')){
+            return response()->json([
+                "message" => "missing image"
+            ]);
+        }
+        $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/images', $imageName);
+            $user->image = $imageName;
+
+       
 
         
 
