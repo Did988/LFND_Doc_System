@@ -238,12 +238,7 @@ class outbound_detailController extends Controller
     public function make_Out_De_form(Request $request)
     {
         $data = $request->all();
-        $request->validate([
-            'user_Id' => 'required',
-            'date' => 'required',
-            'send_to' => 'required',
-            'title' => 'required',
-        ]);
+        
 
         $out_de = new Outbound_Detail();
         $out_de->user_Id = $data['user_Id'];
@@ -283,7 +278,7 @@ class outbound_detailController extends Controller
 
         return response()->json([
             'message' => 'ສ້າງໃບສະໂນດສຳເລັດ',
-            'data' => $data
+            'data' => $out_de->outbound_Detail_Id
         ]);
     }
     public function ViewOutDetail($outDocId)
