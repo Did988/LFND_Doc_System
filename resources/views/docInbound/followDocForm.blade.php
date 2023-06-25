@@ -9,7 +9,11 @@
     <title>ໃບຕິດຕາມເອກະສານ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://fonts.cdnfonts.com/css/phetsarath?styles=19638,19637" rel="stylesheet">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* @font-face {
             font-family: 'LaoNoto';
@@ -48,7 +52,10 @@
 
 
         .laoFont {
-            font-family: 'PhetsarathOT';
+            /* font-family: 'Phetsarath'; */
+                                                
+            font-family: 'Noto Sans Lao', sans-serif;
+            font-weight: 400;
             font-size: 12pt;
         }
 
@@ -84,7 +91,6 @@
 
         .title {
             font-size: 14pt;
-            font-weight: bold;
             text-align: center;
         }
 
@@ -149,7 +155,7 @@
         tr,
         .tb_head {
             height: 50px;
-           
+
         }
 
         table,
@@ -176,7 +182,7 @@
         </div>
         <div class="space-1"></div>
         <div class="normal-text center laoFont">
-            <p class="title">ໃບຕິດຕາມເອກະສານ</p>
+            <p class="title" style="font-weight: bold;">ໃບຕິດຕາມເອກະສານ</p>
 
             @foreach ($info ?? '' as $item)
                 <p>ເອກະສານເຂົ້າເລກທີ: {{ $item->doc_Id }} ລົງວັນທີ
