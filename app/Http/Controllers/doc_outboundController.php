@@ -255,8 +255,14 @@ class doc_outboundController extends Controller
         ], 200);
     }
 
-    public function show_by_out_de($outbound_Detail_Id){
+    public function show_by_out_de(Request $request){
 
+        $request->validate(
+            [
+                'outDeId' => 'required'
+            ]
+            );
+        $outbound_Detail_Id = $request->outDeId;
         $data = DB::table('doc__outbounds')
         ->where('outbound_Detail_Id','=',$outbound_Detail_Id)
         ->get();
