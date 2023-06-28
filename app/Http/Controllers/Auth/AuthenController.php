@@ -81,12 +81,15 @@ class AuthenController extends Controller
                 ],200);
             } else {
                 return response()->json([
-                    'message' => 'ອີເມວ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ'
+                    'message' => 'ອີເມວ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ',
+                    'value' => 'error'
                 ]);
             }
         } else {
             return response()->json([
-                'message' => 'ບໍ່ສາມາດຊອກຫາບັນຊີຂອງທ່ານໄດ້ໃນລະບົບ'
+                'message' => 'ບໍ່ສາມາດຊອກຫາບັນຊີຂອງທ່ານໄດ້ໃນລະບົບ',
+                'value' => 'notFound'
+
             ]);
         }
     }

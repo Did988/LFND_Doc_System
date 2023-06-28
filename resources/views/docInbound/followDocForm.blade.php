@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,9 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="https://fonts.cdnfonts.com/css/phetsarath?styles=19638,19637" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet"> --}}
     <style>
         /* @font-face {
             font-family: 'LaoNoto';
@@ -53,9 +54,10 @@
 
         .laoFont {
             /* font-family: 'Phetsarath'; */
+            font-family: 'PhetsarathOT';
                                                 
-            font-family: 'Noto Sans Lao', sans-serif;
-            font-weight: 400;
+            /* font-family: 'Noto Sans Lao', sans-serif; */
+            font-weight: 700;
             font-size: 12pt;
         }
 
