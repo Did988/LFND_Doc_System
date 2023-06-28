@@ -91,7 +91,7 @@ Route::put('/doc_outbound/edit/{doc_Outbound}',[doc_outboundController::class,'u
 Route::post('/doc_outbound/insert_file/{doc_Outbound}',[doc_outboundController::class,'insert_file']);
 Route::delete('/doc_outbound/delete/{doc_Outbound}', [doc_outboundController::class,'destroy']);
 Route::post('/doc_outbound/add/make_out_doc',[doc_outboundController::class,'make_out_doc']);
-Route::get('/doc_outbounds/byOutDeId',[doc_outboundController::class,'show_by_out_de']);
+Route::post('/doc_outbounds/byOutDeId',[doc_outboundController::class,'show_by_out_de']);
 
 //services
 
